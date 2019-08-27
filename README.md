@@ -1,3 +1,3 @@
 # Random Dad Joke App
 
-Creating an React Native App 
+Creating an React Native App

@@ -1,12 +1,32 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import {StyleSheet, View, Text } from 'react-native';
+import axios from 'axios';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('Const runs')
+  }
+
+  componentDidMount() {
+    this.getJoke()
+  }
+
+  getJoke() {
+    let url = 'https://icanhazdadjoke.com/'
+
+    axios.get(url)
+    .then(res => console.log(res))
+  }
+
+  render() {
+    console.log('render method runs')
+    return (
+      <View style={styles.container}>
+        <Text> Hello </Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -17,3 +37,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;

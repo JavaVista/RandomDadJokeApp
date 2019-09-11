@@ -1,41 +1,73 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
+const API_URL = 'https://icanhazdadjoke.com/';
+
 class App extends Component {
-  constructor(props) {
-    super(props);
-    console.log('Const runs')
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			joke: null,
+		};
+		//this.getJoke = this.getJoke.bind(this);
+	}
 
-  componentDidMount() {
-    this.getJoke()
-  }
+	componentDidMount() {
+		this.getJoke();
+	}
 
-  getJoke() {
-    let url = 'https://icanhazdadjoke.com/'
+	getJoke() {
+		let url = API_URL;
 
-    axios.get(url)
-    .then(res => console.log(res))
-  }
+		if (this.props.jokeID) {
+			url += `/j/${this.props.jokeID}`;
+		}
 
-  render() {
-    console.log('render method runs')
-    return (
-      <View style={styles.container}>
-        <Text> Hello </Text>
-      </View>
-    );
-  }
+		axios
+			.get(url, {
+				headers: { Accept: 'application/json' },
+			})
+			.then(res => {
+				this.setState({
+					joke: { id: res.data.id, text: res.data.joke },
+				});
+			});
+	}
+
+	render() {
+		const { joke } = this.state;
+		if (!joke) {
+			return (
+				<View style={styles.container}>
+					<Text>No Joke Amigo</Text>
+				</View>
+			);
+		}
+		return (
+			<View style={styles.container}>
+				<Text> Hello {joke.text} </Text>
+			</View>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
 });
 
 export default App;
+
+App.propTypes = {
+	jokeID: PropTypes.string,
+};
+
+App.defaultProps = {
+	jokeID: null,
+};

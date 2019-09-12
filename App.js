@@ -10,6 +10,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			joke: null,
+			error: null,
 		};
 		//this.getJoke = this.getJoke.bind(this);
 	}
@@ -33,15 +34,21 @@ class App extends Component {
 				this.setState({
 					joke: { id: res.data.id, text: res.data.joke },
 				});
+			})
+			.catch(error => {
+				this.setState({
+					error: error.response.data.message,
+				});
 			});
 	}
 
 	render() {
-		const { joke } = this.state;
+		const { joke, error } = this.state;
 		if (!joke) {
 			return (
 				<View style={styles.container}>
 					<Text>No Joke Amigo</Text>
+					<Text>{error}</Text>
 				</View>
 			);
 		}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -12,7 +12,7 @@ class App extends Component {
 			joke: null,
 			error: null,
 		};
-		//this.getJoke = this.getJoke.bind(this);
+		this.getJoke = this.getJoke.bind(this);
 	}
 
 	componentDidMount() {
@@ -43,6 +43,7 @@ class App extends Component {
 	}
 
 	render() {
+		const {refreshButtonClass } = this.props;
 		const { joke, error } = this.state;
 		if (!joke) {
 			return (
@@ -54,7 +55,10 @@ class App extends Component {
 		}
 		return (
 			<View style={styles.container}>
-				<Text> Hello {joke.text} </Text>
+				<Text> {joke.text} </Text>
+				{
+					<Button className={refreshButtonClass} onClick={this.getJoke} title='Get a New Joke'/>
+				}
 			</View>
 		);
 	}
@@ -73,8 +77,10 @@ export default App;
 
 App.propTypes = {
 	jokeID: PropTypes.string,
+	refreshButtonClass: PropTypes.string,
 };
 
 App.defaultProps = {
 	jokeID: null,
+	refreshButtonClass: "refresh-button",
 };

@@ -57,7 +57,8 @@ class App extends Component {
 			<View style={styles.container}>
 				<Text> {joke.text} </Text>
 				{
-					<Button className={refreshButtonClass} onClick={this.getJoke} title='Get a New Joke'/>
+
+					<Button className={refreshButtonClass} onPress={this.getJoke} title='Get a New Joke' />
 				}
 			</View>
 		);
@@ -78,9 +79,12 @@ export default App;
 App.propTypes = {
 	jokeID: PropTypes.string,
 	refreshButtonClass: PropTypes.string,
+
 };
 
 App.defaultProps = {
 	jokeID: null,
 	refreshButtonClass: "refresh-button",
+	
 };
+

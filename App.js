@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text, Button, Share } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -11,6 +12,7 @@ class App extends Component {
 		this.state = {
 			joke: null,
 			error: null,
+			tweet: null,
 		};
 		this.getJoke = this.getJoke.bind(this);
 	}
@@ -20,6 +22,7 @@ class App extends Component {
 	}
 
 	getJoke() {
+		// called on clicking the 'Get New Joke' button
 		let url = API_URL;
 
 		if (this.props.jokeID) {
@@ -43,8 +46,10 @@ class App extends Component {
 	}
 
 	render() {
-		const {refreshButtonClass } = this.props;
-		const { joke, error } = this.state;
+		const { refreshButtonClass } = this.props;
+		const { joke, error, tweet } = this.state;
+		const source = "~ Dad's Joke";
+
 		if (!joke) {
 			return (
 				<View style={styles.container}>
@@ -53,13 +58,25 @@ class App extends Component {
 				</View>
 			);
 		}
+		const _handlePressButtonAsync = async () => {
+			await WebBrowser.openBrowserAsync(
+				`https://twitter.com/intent/tweet?text=${joke.text} ${source}`
+			);
+		};
 		return (
 			<View style={styles.container}>
 				<Text> {joke.text} </Text>
-				{
-
-					<Button className={refreshButtonClass} onPress={this.getJoke} title='Get a New Joke' />
-				}
+				<Text> {source} </Text>
+				<Button
+					className={refreshButtonClass}
+					onPress={this.getJoke}
+					title="Get a new Joke"
+				/>
+				<Button
+					title="Tweet this Joke"
+					onPress={_handlePressButtonAsync}
+				/>
+				<Text>{tweet && JSON.stringify(tweet)}</Text>
 			</View>
 		);
 	}
@@ -79,12 +96,9 @@ export default App;
 App.propTypes = {
 	jokeID: PropTypes.string,
 	refreshButtonClass: PropTypes.string,
-
 };
 
 App.defaultProps = {
 	jokeID: null,
-	refreshButtonClass: "refresh-button",
-	
+	refreshButtonClass: 'refresh-button',
 };
-

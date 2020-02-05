@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Button, Share } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { Ionicons } from "@expo/vector-icons";
 
 const API_URL = 'https://icanhazdadjoke.com/';
 
@@ -48,7 +49,7 @@ class App extends Component {
 	render() {
 		const { refreshButtonClass } = this.props;
 		const { joke, error, tweet } = this.state;
-		const source = "~ Dad's Joke";
+		const source = "~ #dadjoke";
 
 		if (!joke) {
 			return (
@@ -77,6 +78,7 @@ class App extends Component {
 					onPress={_handlePressButtonAsync}
 				/>
 				<Text>{tweet && JSON.stringify(tweet)}</Text>
+				<Ionicons name="logo-twitter" size={32} color="#00acee" />
 			</View>
 		);
 	}

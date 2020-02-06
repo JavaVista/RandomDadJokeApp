@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Button, Share } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
 
 const API_URL = 'https://icanhazdadjoke.com/';
 
@@ -49,7 +49,7 @@ class App extends Component {
 	render() {
 		const { refreshButtonClass } = this.props;
 		const { joke, error, tweet } = this.state;
-		const source = "~ #dadjoke";
+		const source = `- Dad's Joke`;
 
 		if (!joke) {
 			return (
@@ -61,13 +61,14 @@ class App extends Component {
 		}
 		const _handlePressButtonAsync = async () => {
 			await WebBrowser.openBrowserAsync(
-				`https://twitter.com/intent/tweet?text=${joke.text} ${source}`
+				`https://twitter.com/intent/tweet?text=${joke.text}
+				${` - dadjoke`}` //TODO: handle hashtag 
 			);
 		};
 		return (
 			<View style={styles.container}>
-				<Text> {joke.text} </Text>
-				<Text> {source} </Text>
+				<JokeContainer joke={joke} source={source} />
+
 				<Button
 					className={refreshButtonClass}
 					onPress={this.getJoke}
@@ -103,4 +104,16 @@ App.propTypes = {
 App.defaultProps = {
 	jokeID: null,
 	refreshButtonClass: 'refresh-button',
+};
+
+// QuoteContainer
+const JokeContainer = ({ joke, source }) => {
+	return (
+		<View>
+			<Text>
+				{joke.text}
+				{source}
+			</Text>
+		</View>
+	);
 };

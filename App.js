@@ -25,7 +25,7 @@ class App extends Component {
 	getJoke() {
 		// called on clicking the 'Get New Joke' button
 		let url = API_URL;
-
+		//const html = html.replace(/#/g, "%23");
 		if (this.props.jokeID) {
 			url += `/j/${this.props.jokeID}`;
 		}
@@ -59,10 +59,11 @@ class App extends Component {
 				</View>
 			);
 		}
+
 		const _handlePressButtonAsync = async () => {
 			await WebBrowser.openBrowserAsync(
 				`https://twitter.com/intent/tweet?text=${joke.text}
-				${` - dadjoke`}` //TODO: handle hashtag 
+					- %23DadJoke %23lol %23joke %23sillyjoke %23CheesyJokes`
 			);
 		};
 		return (

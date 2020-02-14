@@ -25,7 +25,6 @@ class App extends Component {
 	getJoke() {
 		// called on clicking the 'Get New Joke' button
 		let url = API_URL;
-		//const html = html.replace(/#/g, "%23");
 		if (this.props.jokeID) {
 			url += `/j/${this.props.jokeID}`;
 		}
@@ -69,11 +68,10 @@ class App extends Component {
 		return (
 			<View style={styles.container}>
 				<JokeContainer joke={joke} source={source} />
-
-				<Button
+				<GetButton
 					className={refreshButtonClass}
+					title="Give me another silly one"
 					onPress={this.getJoke}
-					title="Get a new Joke"
 				/>
 				<Button
 					title="Tweet this Joke"
@@ -107,7 +105,7 @@ App.defaultProps = {
 	refreshButtonClass: 'refresh-button',
 };
 
-// QuoteContainer
+// Joke Container component
 const JokeContainer = ({ joke, source }) => {
 	return (
 		<View>
@@ -117,4 +115,8 @@ const JokeContainer = ({ joke, source }) => {
 			</Text>
 		</View>
 	);
+};
+
+const GetButton = ({ onPress, title }) => {
+	return <Button className="getButton" onPress={onPress} title={title} />;
 };

@@ -73,12 +73,10 @@ class App extends Component {
 					title="Give me another silly one"
 					onPress={this.getJoke}
 				/>
-				<Button
+				<ShareTwitter
 					title="Tweet this Joke"
 					onPress={_handlePressButtonAsync}
 				/>
-				<Text>{tweet && JSON.stringify(tweet)}</Text>
-				<Ionicons name="logo-twitter" size={32} color="#00acee" />
 			</View>
 		);
 	}
@@ -108,15 +106,22 @@ App.defaultProps = {
 // Joke Container component
 const JokeContainer = ({ joke, source }) => {
 	return (
-		<View>
-			<Text>
-				{joke.text}
-				{source}
-			</Text>
-		</View>
+		<Text>
+			{joke.text}
+			{source}
+		</Text>
 	);
 };
 
 const GetButton = ({ onPress, title }) => {
 	return <Button className="getButton" onPress={onPress} title={title} />;
+};
+
+const ShareTwitter = ({ onPress, title }) => {
+	return (
+		<>
+			<Button className="shareButton" onPress={onPress} title={title} />
+			<Ionicons name="logo-twitter" size={32} color="#00acee" />
+		</>
+	);
 };
